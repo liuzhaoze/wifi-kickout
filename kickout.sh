@@ -2,7 +2,7 @@
 
 ### kickout.sh #####
 
-# threshold (dBm), always negative 
+# threshold (dBm), always negative
 thr=-75
 
 # mode (string) = "white" or "black", always minuscule !
@@ -17,7 +17,7 @@ blacklist="00:00:00:00:00:00 00:00:00:00:00:00"
 whitelist="00:00:00:00:00:00 00:00:00:00:00:00"
 
 # Specified logfile
-logfile="/tmp/kickout-wifi.log"
+logfile="/tmp/wifi-kickout.log"
 datetime=`date +%Y-%m-%d_%H:%M:%S`
 if [[ ! -f "$logfile" ]]; then
 	echo "creating kickout-wifi logfile: $logfile"
@@ -25,7 +25,7 @@ if [[ ! -f "$logfile" ]]; then
 fi
 
 # function deauth
-function deauth () 
+function deauth ()
 {
 	mac=$1
 	wlan=$2
@@ -38,7 +38,7 @@ function deauth ()
 }
 
 # wlanlist for multiple wlans (e.g., 5GHz/2.4GHz)
-wlanlist=$(ifconfig | grep wlan | grep -v sta | awk '{ print $1 }')
+wlanlist=$(ifconfig | grep -E "phy[0-9]+-ap[0-9]+" | grep -v sta | awk '{ print $1 }')
 
 #loop for each wlan
 for wlan in $wlanlist
